@@ -3,6 +3,10 @@ package ge.tbc.testautomation.javaoop.runners;
 import ge.tbc.testautomation.javaoop.figures.Circle;
 import ge.tbc.testautomation.javaoop.util.Util;
 
+import ge.tbc.testautomation.javaoop.figures.Rectangle;
+import ge.tbc.testautomation.javaoop.figures.Triangle;
+import ge.tbc.testautomation.javaoop.util.HelperFunctions;
+
 import java.util.Random;
 
 
@@ -51,5 +55,21 @@ public class Main {
 
         String circle5String = Util.circleToString(circle5);
         System.out.println(circle5String);
+
+        System.out.println("----- Java OOP 2 -----");
+
+        Rectangle rectangle1 = new Rectangle(4, 5);
+        System.out.println("Rectangle1 Area: " + rectangle1.getArea());
+        System.out.println("Rectangle1 Perimeter: " + rectangle1.getPerimeter());
+
+        Rectangle rectangle2 = new Rectangle(3, 7);
+        System.out.println("Rectangle2 Area: " + rectangle2.getArea());
+        System.out.println("Rectangle2 Perimeter: " + rectangle2.getPerimeter());
+
+        Triangle triangle = new Triangle(6, 8, 10);
+        System.out.println("Triangle Area: " + triangle.getArea());
+        System.out.println("Triangle Perimeter: " + triangle.getPerimeter());
+
+        HelperFunctions.compareRectangles(rectangle1, rectangle2);
     }
 }
