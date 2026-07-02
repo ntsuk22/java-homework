@@ -1,75 +1,65 @@
 package ge.tbc.testautomation.javaoop.runners;
 
+import ge.tbc.testautomation.javaoop.exceptionsStringOperationsRegex.LimitException;
+import ge.tbc.testautomation.javaoop.exceptionsStringOperationsRegex.RadiusException;
 import ge.tbc.testautomation.javaoop.figures.Circle;
-import ge.tbc.testautomation.javaoop.util.Util;
 
-import ge.tbc.testautomation.javaoop.figures.Rectangle;
-import ge.tbc.testautomation.javaoop.figures.Triangle;
-import ge.tbc.testautomation.javaoop.util.HelperFunctions;
-
-import java.util.Random;
-
+import java.util.regex.Pattern;
 
 public class Main {
 
     public static void main(String[] args) {
 
-        Circle circle1 = new Circle(5);
-        System.out.println(Circle.numberOfCircleInstances);
+        try {
+            Circle invalidCircle = new Circle(-5);
+        } catch (RadiusException e) {
+            System.out.println(e.getMessage());
+        }
 
-        Circle circle2 = new Circle(10);
-        System.out.println(Circle.numberOfCircleInstances);
+        try {
+            Circle c1 = new Circle(1);
+            Circle c2 = new Circle(2);
+            Circle c3 = new Circle(3);
+            Circle c4 = new Circle(4);
+            Circle c5 = new Circle(5);
+            Circle c6 = new Circle(6);
+            Circle c7 = new Circle(7);
+        } catch (LimitException e) {
+            System.out.println(e.getMessage());
+        }
 
-        Circle circle3 = new Circle(15);
-        System.out.println(Circle.numberOfCircleInstances);
+        String sentence = "Test Automation Bootcamp 12, 2025";
 
-        Circle circle4 = new Circle(20);
-        System.out.println(Circle.numberOfCircleInstances);
+        System.out.println(sentence.substring(5, 15).toLowerCase());
 
-        Circle circle5 = new Circle(25);
-        System.out.println(Circle.numberOfCircleInstances);
+        String[] words = sentence.split(" ");
+        for (String word : words) {
+            System.out.println(word);
+        }
 
-        // BONUS
+        System.out.println(sentence.length());
 
-        Random random = new Random();
+        sentence = sentence.replace(",", "");
+        System.out.println(sentence.replace(" ", "-"));
 
-        Circle c1 = new Circle(random.nextInt(20) + 1); // 1-20
-        Circle c2 = new Circle(random.nextInt(20) + 1);
-        Circle c3 = new Circle(random.nextInt(20) + 1);
+        String[] phoneNumbers = {
+                "599-14-15-16",
+                "555-00-11-22",
+                "595-33-44-55",
+                "592-99-88-77",
+                "123-45-67-89",
+                "599-1-2-3",
+                "599-123456",
+                "500-12-34-56"
+        };
 
-        System.out.println("Radius 1: " + c1.getRadius());
-        System.out.println("Radius 2: " + c2.getRadius());
-        System.out.println("Radius 3: " + c3.getRadius());
+        for (String number : phoneNumbers) {
+            System.out.println(number + " -> " + phoneNumberValidation(number));
+        }
+    }
 
-        String circle1String = Util.circleToString(circle1);
-        System.out.println(circle1String);
-
-        String circle2String = Util.circleToString(circle2);
-        System.out.println(circle2String);
-
-        String circle3String = Util.circleToString(circle3);
-        System.out.println(circle3String);
-
-        String circle4String = Util.circleToString(circle4);
-        System.out.println(circle4String);
-
-        String circle5String = Util.circleToString(circle5);
-        System.out.println(circle5String);
-
-        System.out.println("----- Java OOP 2 -----");
-
-        Rectangle rectangle1 = new Rectangle(4, 5);
-        System.out.println("Rectangle1 Area: " + rectangle1.getArea());
-        System.out.println("Rectangle1 Perimeter: " + rectangle1.getPerimeter());
-
-        Rectangle rectangle2 = new Rectangle(3, 7);
-        System.out.println("Rectangle2 Area: " + rectangle2.getArea());
-        System.out.println("Rectangle2 Perimeter: " + rectangle2.getPerimeter());
-
-        Triangle triangle = new Triangle(6, 8, 10);
-        System.out.println("Triangle Area: " + triangle.getArea());
-        System.out.println("Triangle Perimeter: " + triangle.getPerimeter());
-
-        HelperFunctions.compareRectangles(rectangle1, rectangle2);
+    private static boolean phoneNumberValidation(String phoneNumber) {
+        String cleaned = phoneNumber.replace("-", "");
+        return Pattern.matches("(555|595|592|599)[0-9]{6}", cleaned);
     }
 }
