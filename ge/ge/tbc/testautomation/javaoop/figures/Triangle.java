@@ -37,9 +37,8 @@ public class Triangle extends Figure implements IResizable, IValidFigure {
 
     @Override
     public void doubleSize() {
-        a *= 2;
-        b *= 2;
-        c *= 2;
+        a *= Math.sqrt(2);
+        b *= Math.sqrt(2);
     }
 
     @Override
