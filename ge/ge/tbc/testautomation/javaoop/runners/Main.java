@@ -1,65 +1,70 @@
 package ge.tbc.testautomation.javaoop.runners;
 
-import ge.tbc.testautomation.javaoop.exceptionsStringOperationsRegex.LimitException;
-import ge.tbc.testautomation.javaoop.exceptionsStringOperationsRegex.RadiusException;
+import ge.tbc.testautomation.javaoop.abstractClassesInterfaces.interfaces.IResizable;
+import ge.tbc.testautomation.javaoop.abstractClassesInterfaces.interfaces.IValidFigure;
 import ge.tbc.testautomation.javaoop.figures.Circle;
-
-import java.util.regex.Pattern;
+import ge.tbc.testautomation.javaoop.figures.Triangle;
 
 public class Main {
 
     public static void main(String[] args) {
 
+        System.out.println("=== Abstract Figure: Circle ===");
+        Circle circle = new Circle(5);
+        System.out.println("Area:    " + circle.getArea());
+        System.out.println("Length (circumference): " + circle.getLength());
+        System.out.print("Package: ");
+        circle.printPackageName();
+
+        System.out.println("\n=== Abstract Figure: Triangle ===");
+        Triangle triangle = new Triangle(3, 4, 5);
+        System.out.println("Area:    " + triangle.getArea());
+        System.out.println("Length (perimeter): " + triangle.getLength());
+        System.out.print("Package: ");
+        triangle.printPackageName();
+
+        System.out.println("\n=== IResizable: Circle ===");
+        Circle resizableCircle = new Circle(3);
+        System.out.println("Radius before doubleSize: " + resizableCircle.getRadius());
+        resizableCircle.doubleSize();
+        System.out.println("Radius after doubleSize:  " + resizableCircle.getRadius());
+        resizableCircle.customSize(1.5);
+        System.out.println("Radius after customSize(1.5): " + resizableCircle.getRadius());
+
+        System.out.println("\n=== IResizable: Triangle ===");
+        Triangle resizableTriangle = new Triangle(3, 4, 5);
+        System.out.println("Perimeter before doubleSize: " + resizableTriangle.getLength());
+        resizableTriangle.doubleSize();
+        System.out.println("Perimeter after doubleSize:  " + resizableTriangle.getLength());
+        resizableTriangle.customSize(0.5);
+        System.out.println("Perimeter after customSize(0.5): " + resizableTriangle.getLength());
+
+        System.out.println("\n=== IValidFigure: Circle ===");
+        IValidFigure validCircle = new Circle(7);
+        System.out.println("Circle(7) is valid: " + validCircle.validateFigure());
+
+        System.out.println("\n=== IValidFigure: Triangle ===");
+        IValidFigure validTriangle = new Triangle(5, 5, 5);
+        System.out.println("Triangle(5,5,5) is valid: " + validTriangle.validateFigure());
+
+        System.out.println("\n=== Validation on creation: invalid Circle ===");
         try {
-            Circle invalidCircle = new Circle(-5);
-        } catch (RadiusException e) {
-            System.out.println(e.getMessage());
+            Circle invalidCircle = new Circle(-3);
+        } catch (IllegalArgumentException e) {
+            System.out.println("Caught: " + e.getMessage());
         }
 
+        System.out.println("\n=== Validation on creation: invalid Triangle ===");
         try {
-            Circle c1 = new Circle(1);
-            Circle c2 = new Circle(2);
-            Circle c3 = new Circle(3);
-            Circle c4 = new Circle(4);
-            Circle c5 = new Circle(5);
-            Circle c6 = new Circle(6);
-            Circle c7 = new Circle(7);
-        } catch (LimitException e) {
-            System.out.println(e.getMessage());
+            Triangle invalidTriangle = new Triangle(1, 2, 10);
+        } catch (IllegalArgumentException e) {
+            System.out.println("Caught: " + e.getMessage());
         }
 
-        String sentence = "Test Automation Bootcamp 12, 2025";
-
-        System.out.println(sentence.substring(5, 15).toLowerCase());
-
-        String[] words = sentence.split(" ");
-        for (String word : words) {
-            System.out.println(word);
-        }
-
-        System.out.println(sentence.length());
-
-        sentence = sentence.replace(",", "");
-        System.out.println(sentence.replace(" ", "-"));
-
-        String[] phoneNumbers = {
-                "599-14-15-16",
-                "555-00-11-22",
-                "595-33-44-55",
-                "592-99-88-77",
-                "123-45-67-89",
-                "599-1-2-3",
-                "599-123456",
-                "500-12-34-56"
-        };
-
-        for (String number : phoneNumbers) {
-            System.out.println(number + " -> " + phoneNumberValidation(number));
-        }
-    }
-
-    private static boolean phoneNumberValidation(String phoneNumber) {
-        String cleaned = phoneNumber.replace("-", "");
-        return Pattern.matches("(555|595|592|599)[0-9]{6}", cleaned);
+        System.out.println("\n=== IResizable via interface reference ===");
+        IResizable r = new Circle(4);
+        System.out.println("Circle(4) area before doubleSize: " + ((Circle) r).getArea());
+        r.doubleSize();
+        System.out.println("Circle(4) area after doubleSize:  " + ((Circle) r).getArea());
     }
 }

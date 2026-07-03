@@ -1,26 +1,57 @@
 package ge.tbc.testautomation.javaoop.figures;
 
-public class Triangle extends Figure {
+import ge.tbc.testautomation.javaoop.abstractClassesInterfaces.interfaces.IResizable;
+import ge.tbc.testautomation.javaoop.abstractClassesInterfaces.interfaces.IValidFigure;
+
+public class Triangle extends Figure implements IResizable, IValidFigure {
 
     double a;
     double b;
     double c;
-    double h;
 
     public Triangle(double a, double b, double c) {
         this.a = a;
         this.b = b;
         this.c = c;
-        this.h = 4.0;
+        if (!validateFigure()) {
+            throw new IllegalArgumentException(
+                    "Sides (" + a + ", " + b + ", " + c + ") do not form a valid triangle");
+        }
     }
 
     @Override
     public double getArea() {
-        return 0.5 * a * h;
+        double s = (a + b + c) / 2.0;
+        return Math.sqrt(s * (s - a) * (s - b) * (s - c));
     }
 
     @Override
-    public double getPerimeter() {
+    public double getLength() {
         return a + b + c;
+    }
+
+    @Override
+    public void printPackageName() {
+        System.out.println(this.getClass().getPackage().getName());
+    }
+
+    @Override
+    public void doubleSize() {
+        a *= 2;
+        b *= 2;
+        c *= 2;
+    }
+
+    @Override
+    public void customSize(double byValue) {
+        a *= byValue;
+        b *= byValue;
+        c *= byValue;
+    }
+
+    @Override
+    public boolean validateFigure() {
+        return a > 0 && b > 0 && c > 0
+                && (a + b > c) && (a + c > b) && (b + c > a);
     }
 }

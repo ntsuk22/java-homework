@@ -16,7 +16,12 @@ public class Rectangle extends Figure {
     }
 
     @Override
-    public double getPerimeter() {
+    public double getLength() {
         return 2 * (a + b);
+    }
+
+    @Override
+    public void printPackageName() {
+        System.out.println(this.getClass().getPackage().getName());
     }
 }
