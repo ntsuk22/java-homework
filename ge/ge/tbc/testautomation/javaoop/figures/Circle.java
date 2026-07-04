@@ -39,7 +39,7 @@ public class Circle extends Figure implements IResizable, IValidFigure {
 
     @Override
     public void doubleSize() {
-        radius *= 2;
+        radius += radius;
     }
 
     @Override
