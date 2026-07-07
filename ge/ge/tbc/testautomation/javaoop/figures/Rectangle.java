@@ -24,4 +24,9 @@ public class Rectangle extends Figure {
     public void printPackageName() {
         System.out.println(this.getClass().getPackage().getName());
     }
+
+    @Override
+    public String toString() {
+        return "Rectangle(" + a + "x" + b + ", area=" + getArea() + ")";
+    }
 }
