@@ -1,49 +1,43 @@
 package ge.tbc.testautomation.javaoop.runners;
 
-import ge.tbc.testautomation.javaoop.annotationsAndStreams.Analyzable;
-import ge.tbc.testautomation.javaoop.annotationsAndStreams.VariableNameAnnotation;
+import ge.tbc.testautomation.javaoop.figures.Circle;
+import ge.tbc.testautomation.javaoop.figures.Rectangle;
+import ge.tbc.testautomation.javaoop.generics.AnyPair;
+import ge.tbc.testautomation.javaoop.generics.FigurePair;
 
 import java.lang.reflect.Field;
 import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
 
 public class Main {
 
+    private static <K, D> AnyPair<Field[], Field[]> getDeclaredFields(K objOne, D objTwo) {
+        Field[] fieldsOne = objOne.getClass().getDeclaredFields();
+        Field[] fieldsTwo = objTwo.getClass().getDeclaredFields();
+        return new AnyPair<>(fieldsOne, fieldsTwo);
+    }
+
     public static void main(String[] args) {
-        @SuppressWarnings("unused")
-        int unUsedInt = 10;
-        @SuppressWarnings("unused")
-        String unUsedString = "Hello";
-        @SuppressWarnings("unused")
-        double unUsedDouble = 5.5;
 
-        Field[] fields = Analyzable.class.getDeclaredFields();
+        Integer someInteger = 42;
+        String someString = "Hello, generics!";
 
-        List<Field> matchingFields = Arrays.stream(fields)
-                .filter(field -> field.isAnnotationPresent(VariableNameAnnotation.class))
-                .filter(field -> {
-                    VariableNameAnnotation annotation = field.getAnnotation(VariableNameAnnotation.class);
-                    String annotationName = annotation.name();
-                    String capitalizedFieldName = field.getName().substring(0, 1).toUpperCase() + field.getName().substring(1);
-                    return capitalizedFieldName.equals(annotationName);
-                })
-                .collect(Collectors.toList());
+        AnyPair<Field[], Field[]> declaredFields = getDeclaredFields(someInteger, someString);
 
-        List<Field> nonMatchingFields = Arrays.stream(fields)
-                .filter(field -> field.isAnnotationPresent(VariableNameAnnotation.class))
-                .filter(field -> {
-                    VariableNameAnnotation annotation = field.getAnnotation(VariableNameAnnotation.class);
-                    String annotationName = annotation.name();
-                    String capitalizedFieldName = field.getName().substring(0, 1).toUpperCase() + field.getName().substring(1);
-                    return !capitalizedFieldName.equals(annotationName);
-                })
-                .collect(Collectors.toList());
+        System.out.println("Integer class fields:");
+        for (Field field : Arrays.asList(declaredFields.getElementOne())) {
+            System.out.println(field);
+        }
 
-        System.out.println("--- Matching Fields ---");
-        matchingFields.forEach(f -> System.out.println(f.getName() + " -> " + f.getAnnotation(VariableNameAnnotation.class).name()));
+        System.out.println("String class fields:");
+        for (Field field : Arrays.asList(declaredFields.getElementTwo())) {
+            System.out.println(field);
+        }
 
-        System.out.println("\n--- Non-Matching Fields ---");
-        nonMatchingFields.forEach(f -> System.out.println(f.getName() + " -> " + f.getAnnotation(VariableNameAnnotation.class).name()));
+        Circle circle = new Circle(5);
+        Rectangle rectangle = new Rectangle(3, 4);
+
+        FigurePair<Circle, Rectangle> figurePair = new FigurePair<>(circle, rectangle);
+
+        System.out.println(figurePair);
     }
 }
